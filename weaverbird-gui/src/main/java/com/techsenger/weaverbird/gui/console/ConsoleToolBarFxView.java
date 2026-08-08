@@ -58,11 +58,11 @@ public class ConsoleToolBarFxView<P extends ConsoleToolBarPresenter<?>> extends 
     @Override
     protected void build() {
         super.build();
-        clearButton.getStyleClass().addAll(StyleClasses.ICON_BUTTON, Styles.FLAT, StyleClasses.SIZE_L);
+        clearButton.getStyleClass().addAll(Styles.FLAT, StyleClasses.SIZE_L);
         clearButton.setTooltip(new Tooltip("Clear"));
-        copyButton.getStyleClass().addAll(StyleClasses.ICON_BUTTON, Styles.FLAT, StyleClasses.SIZE_L);
+        copyButton.getStyleClass().addAll(Styles.FLAT, StyleClasses.SIZE_L);
         copyButton.setTooltip(new Tooltip("Copy"));
-        pasteButton.getStyleClass().addAll(StyleClasses.ICON_BUTTON, Styles.FLAT, StyleClasses.SIZE_L);
+        pasteButton.getStyleClass().addAll(Styles.FLAT, StyleClasses.SIZE_L);
         pasteButton.setTooltip(new Tooltip("Paste"));
 
         getNode().getItems().addAll(clearButton, new Separator(Orientation.VERTICAL), copyButton, pasteButton,

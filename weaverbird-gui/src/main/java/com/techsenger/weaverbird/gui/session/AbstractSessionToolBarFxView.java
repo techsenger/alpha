@@ -70,7 +70,7 @@ public abstract class AbstractSessionToolBarFxView<P extends AbstractSessionTool
         sessionComboBox.setButtonCell(new SessionListCell<ClientSession>());
         sessionComboBox.getStyleClass().add("session");
         HBox.setHgrow(sessionComboBox, Priority.ALWAYS);
-        refreshButton.getStyleClass().addAll(StyleClasses.ICON_BUTTON, Styles.FLAT, StyleClasses.SIZE_L);
+        refreshButton.getStyleClass().addAll(Styles.FLAT, StyleClasses.SIZE_L);
 
         toolBar.getStyleClass().add(StyleClasses.BLEND);
         var css = AbstractSessionToolBarFxView.class.getResource("tool-bar.css").toExternalForm();

@@ -19,6 +19,7 @@ package com.techsenger.weaverbird.gui.console;
 import com.techsenger.shellfx.core.popup.AbstractPopupFxView;
 import com.techsenger.toolkit.fx.utils.ListViewUtils;
 import com.techsenger.toolkit.fx.utils.NodeUtils;
+import com.techsenger.toolkit.fx.utils.ScrollPosition;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -57,7 +58,7 @@ public class CompletionPopupFxView<P extends CompletionPopupPresenter<?>>
         if (current > 0) {
             var newIndex = current - 1;
             this.listView.getSelectionModel().select(newIndex);
-            ListViewUtils.scrollToIfNeeded(listView, newIndex);
+            ListViewUtils.scrollToIfNeeded(listView, newIndex, ScrollPosition.CENTER);
         }
     }
 
@@ -67,7 +68,7 @@ public class CompletionPopupFxView<P extends CompletionPopupPresenter<?>>
         if (current + 1 < this.listView.getItems().size()) {
             var newIndex = current + 1;
             this.listView.getSelectionModel().select(newIndex);
-            ListViewUtils.scrollToIfNeeded(listView, newIndex);
+            ListViewUtils.scrollToIfNeeded(listView, newIndex, ScrollPosition.END);
         }
     }
 
