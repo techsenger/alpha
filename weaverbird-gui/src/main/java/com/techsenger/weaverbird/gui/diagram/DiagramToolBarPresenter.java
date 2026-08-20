@@ -20,6 +20,7 @@ import com.techsenger.patternfx.mvp.ComponentDescriptor;
 import com.techsenger.weaverbird.gui.session.AbstractSessionToolBarPresenter;
 import com.techsenger.weaverbird.net.client.api.ClientSession;
 import java.util.List;
+import java.util.Objects;
 import javafx.collections.FXCollections;
 import com.techsenger.weaverbird.gui.WeaverbirdComponents;
 
@@ -59,7 +60,7 @@ public class DiagramToolBarPresenter<V extends DiagramToolBarView> extends Abstr
     @Override
     protected void postInitialize() {
         super.postInitialize();
-        getView().setZoomLevels(zoomLevels);
+        getView().updateZoomLevels(zoomLevels);
         setZoomLevel("100%");
     }
 
@@ -96,7 +97,10 @@ public class DiagramToolBarPresenter<V extends DiagramToolBarView> extends Abstr
     }
 
     protected void setZoomLevel(String zoomLevel) {
+        if (Objects.equals(this.zoomLevel, zoomLevel)) {
+            return;
+        }
         this.zoomLevel = zoomLevel;
-        getView().setZoomLevel(zoomLevel);
+        getView().updateZoomLevel(zoomLevel);
     }
 }

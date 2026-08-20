@@ -26,7 +26,7 @@ import java.util.List;
  */
 public interface SessionToolBarView extends AreaView {
 
-    void setSessions(List<ClientSession> sessions);
+    void updateSessions(List<ClientSession> sessions);
 
-    void setSession(ClientSession session);
+    void updateSession(ClientSession session);
 }

@@ -21,6 +21,7 @@ import com.techsenger.weaverbird.net.client.api.ClientService;
 import com.techsenger.weaverbird.net.client.api.ClientSession;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
@@ -35,10 +36,20 @@ public abstract class AbstractSessionToolBarPresenter<V extends SessionToolBarVi
 
     private ClientSession session;
 
+    private SessionToolBarParams params;
+
     public AbstractSessionToolBarPresenter(V view, SessionToolBarParams params) {
         super(view, params);
         this.client = params.getClient();
-        this.session = params.getSession();
+        this.params = params;
+    }
+
+    public List<ClientSession> getSessions() {
+        return this.sessions;
+    }
+
+    public ClientSession getSession() {
+        return this.session;
     }
 
     @Override
@@ -48,16 +59,12 @@ public abstract class AbstractSessionToolBarPresenter<V extends SessionToolBarVi
         if (clientSessions != null) {
             setSessions(clientSessions);
         }
-        setSession(session);
+        setSession(params.getSession());
+        this.params = null;
     }
 
     protected void onSessionChanged(ClientSession session) {
         this.session = session;
-    }
-
-    protected void setSessions(List<ClientSession> sessions) {
-        this.sessions = sessions;
-        getView().setSessions(sessions);
     }
 
     protected void onRefresh() {
@@ -68,9 +75,17 @@ public abstract class AbstractSessionToolBarPresenter<V extends SessionToolBarVi
         setSession(session);
     }
 
+    protected void setSessions(List<ClientSession> sessions) {
+        this.sessions = sessions;
+        getView().updateSessions(sessions);
+    }
+
     protected void setSession(ClientSession session) {
+        if (Objects.equals(this.session, session)) {
+            return;
+        }
         this.session = session;
-        getView().setSession(session);
+        getView().updateSession(session);
     }
 
     protected List<ClientSession> getClientSessions() {

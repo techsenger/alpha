@@ -73,13 +73,13 @@ public class CompletionPopupFxView<P extends CompletionPopupPresenter<?>>
     }
 
     @Override
-    public void setItems(List<CompletionItem<?>> items) {
+    public void updateItems(List<CompletionItem<?>> items) {
         listView.setItems(FXCollections.observableArrayList(items));
         listView.getSelectionModel().select(0);
     }
 
     @Override
-    public void setInfo(String description, String module) {
+    public void displayInfo(String description, String module) {
         textArea.clear();
         var boldStyle = StyleAttributeMap.builder().setBold(true).build();
         textArea.appendText("Description: ", boldStyle);
@@ -89,7 +89,7 @@ public class CompletionPopupFxView<P extends CompletionPopupPresenter<?>>
     }
 
     @Override
-    public void setInfo(String description, boolean required, String alias) {
+    public void displayInfo(String description, boolean required, String alias) {
         textArea.clear();
         var boldStyle = StyleAttributeMap.builder().setBold(true).build();
         textArea.appendText("Description: ", boldStyle);

@@ -46,12 +46,12 @@ public class DiagramToolBarFxView<P extends DiagramToolBarPresenter<?>> extends 
     private final Button zoomInButton = new Button(null, new FontIconView(WeaverbirdIcons.ZOOM_IN));
 
     @Override
-    public void setZoomLevels(List<String> levels) {
+    public void updateZoomLevels(List<String> levels) {
         zoomLevelComboBox.setItems(FXCollections.observableArrayList(levels));
     }
 
     @Override
-    public void setZoomLevel(String level) {
+    public void updateZoomLevel(String level) {
         zoomLevelComboBox.getSelectionModel().select(level);
     }
 

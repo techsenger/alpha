@@ -26,7 +26,7 @@ public interface LayerPageView extends PageView {
 
     void showLayer(LayerConfig layer);
 
-    void updateModules();
+    void refreshModules();
 
     void clearSelectAll();
 }

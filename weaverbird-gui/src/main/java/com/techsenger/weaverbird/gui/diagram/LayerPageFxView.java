@@ -80,7 +80,7 @@ public class LayerPageFxView<P extends LayerPagePresenter<?>> extends AbstractPa
     }
 
     @Override
-    public void updateModules() {
+    public void refreshModules() {
         this.listenersDisabled = true;
         for (var m : this.table.getItems()) {
             m.update();

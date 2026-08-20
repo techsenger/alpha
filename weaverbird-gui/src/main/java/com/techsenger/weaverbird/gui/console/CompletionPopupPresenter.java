@@ -85,6 +85,10 @@ public class CompletionPopupPresenter<V extends CompletionPopupView> extends Abs
         return type;
     }
 
+    public List<CompletionItem<?>> getItems() {
+        return this.items;
+    }
+
     @Override
     public String getSelectedItemText() {
         return getItemText(selectedItem);
@@ -124,10 +128,10 @@ public class CompletionPopupPresenter<V extends CompletionPopupView> extends Abs
         if (this.selectedItem != null) {
             if (this.type == CompletionType.COMMAND) {
                 var command = ((CompletionItem<CommandInfo>) item).getElement();
-                getView().setInfo(command.getDescription(), command.getModuleName());
+                getView().displayInfo(command.getDescription(), command.getModuleName());
             } else {
                 var parameter = ((CompletionItem<ParameterDescriptor>) item).getElement();
-                getView().setInfo(parameter.getDescription(), parameter.isRequired(), parameter.getShortName());
+                getView().displayInfo(parameter.getDescription(), parameter.isRequired(), parameter.getShortName());
             }
         }
     }
@@ -142,7 +146,7 @@ public class CompletionPopupPresenter<V extends CompletionPopupView> extends Abs
 
     protected void setItems(List<CompletionItem<?>> items) {
         this.items = items;
-        getView().setItems(items);
+        getView().updateItems(items);
     }
 
     private List<CompletionItem<?>> createCommandItems(String token) {

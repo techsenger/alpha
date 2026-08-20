@@ -47,12 +47,12 @@ public abstract class AbstractSessionToolBarFxView<P extends AbstractSessionTool
     private final ToolBar toolBar = new ToolBar();
 
     @Override
-    public void setSessions(List<ClientSession> sessions) {
+    public void updateSessions(List<ClientSession> sessions) {
         sessionComboBox.setItems(FXCollections.observableArrayList(sessions));
     }
 
     @Override
-    public void setSession(ClientSession session) {
+    public void updateSession(ClientSession session) {
         sessionComboBox.getSelectionModel().select(session);
     }
 

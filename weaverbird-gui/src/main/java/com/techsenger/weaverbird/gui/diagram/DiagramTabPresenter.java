@@ -33,6 +33,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 import javafx.scene.image.Image;
 import net.sourceforge.plantuml.FileFormat;
@@ -68,6 +69,10 @@ public class DiagramTabPresenter<V extends DiagramTabView> extends AbstractHostT
 
     private Image diagram;
 
+    private double diagramWidth;
+
+    private double diagramHeight;
+
     public DiagramTabPresenter(V view, DiagramTabParams params) {
         super(view, params);
         this.framework = params.getFramework();
@@ -91,6 +96,18 @@ public class DiagramTabPresenter<V extends DiagramTabView> extends AbstractHostT
     @Override
     public void onSessionChanged(ClientSession session) {
         this.session = session;
+    }
+
+    public Image getDiagram() {
+        return this.diagram;
+    }
+
+    public double getDiagramWidth() {
+        return this.diagramWidth;
+    }
+
+    public double getDiagramHeight() {
+        return this.diagramHeight;
     }
 
     @Override
@@ -153,10 +170,9 @@ public class DiagramTabPresenter<V extends DiagramTabView> extends AbstractHostT
                         var shellSettings = getView().getComposer().getShellPort().getContext().getSettings();
                         var generator = new LayerDiagramGenerator(previousLayerConfigs, shellSettings, settings);
                         var code = generator.generate();
-                        this.diagram = createDiagram(code);
+                        setDiagram(createDiagram(code));
                         if (this.diagram != null) {
-                            getView().setDiagram(this.diagram);
-                            getView().setDiagramSize(calculateDiagramWidth(), calculateDiagramHeight());
+                            setDiagramSize(calculateDiagramWidth(), calculateDiagramHeight());
                             // getView().setDiagramSize();
                             // setFitSizes(zoomLevel.get());
                             // this.contentModified.set(true);
@@ -176,7 +192,7 @@ public class DiagramTabPresenter<V extends DiagramTabView> extends AbstractHostT
     public void onZoomLevelChanged(int level) {
         this.zoomLevel = level;
         if (this.diagram != null) {
-            getView().setDiagramSize(calculateDiagramWidth(), calculateDiagramHeight());
+            setDiagramSize(calculateDiagramWidth(), calculateDiagramHeight());
         }
     }
 
@@ -190,6 +206,23 @@ public class DiagramTabPresenter<V extends DiagramTabView> extends AbstractHostT
         super.postInitialize();
         setTitle("Diagrams");
         setIcon(WeaverbirdIcons.DIAGRAMS);
+    }
+
+    protected void setDiagram(Image diagram) {
+        if (Objects.equals(this.diagram, diagram)) {
+            return;
+        }
+        this.diagram = diagram;
+        getView().updateDiagram(diagram);
+    }
+
+    protected void setDiagramSize(double diagramWidth, double diagramHeight) {
+        if (this.diagramWidth == diagramWidth && this.diagramHeight == diagramHeight) {
+            return;
+        }
+        this.diagramWidth = diagramWidth;
+        this.diagramHeight = diagramHeight;
+        getView().updateDiagramSize(diagramWidth, diagramHeight);
     }
 
     private Image createDiagram(String code) throws InterruptedException, IOException {

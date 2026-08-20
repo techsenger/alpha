@@ -282,7 +282,7 @@ public class ConsoleTabFxView<P extends ConsoleTabPresenter<?>> extends Abstract
     }
 
     @Override
-    public void setMonospaceFont(Font font) {
+    public void updateMonospaceFont(Font font) {
         this.font = font;
         this.characterWidth = StyleUtils.getMonospaceCharSize(font).getWidth();
     }
@@ -293,7 +293,7 @@ public class ConsoleTabFxView<P extends ConsoleTabPresenter<?>> extends Abstract
     }
 
     @Override
-    public void updateInput(String text) {
+    public void replaceInput(String text) {
         int paraIndex = promptPos.index();
         int paraLen = textArea.getModel().getParagraph(paraIndex).getPlainText().length();
         TextPos paraEnd = new TextPos(paraIndex, paraLen, 0, false);

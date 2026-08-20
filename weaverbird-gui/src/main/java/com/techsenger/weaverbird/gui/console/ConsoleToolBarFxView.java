@@ -46,12 +46,12 @@ public class ConsoleToolBarFxView<P extends ConsoleToolBarPresenter<?>> extends 
     }
 
     @Override
-    public void setCopyDisabled(boolean disabled) {
+    public void updateCopyDisabled(boolean disabled) {
         this.copyButton.setDisable(disabled);
     }
 
     @Override
-    public void setPasteDisabled(boolean disabled) {
+    public void updatePasteDisabled(boolean disabled) {
         this.pasteButton.setDisable(disabled);
     }
 

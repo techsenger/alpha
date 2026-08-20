@@ -117,12 +117,12 @@ public class DiagramTabFxView<P extends DiagramTabPresenter<?>> extends Abstract
     }
 
     @Override
-    public void setDiagram(Image diagram) {
+    public void updateDiagram(Image diagram) {
         imageView.setImage(diagram);
     }
 
     @Override
-    public void setDiagramSize(double width, double height) {
+    public void updateDiagramSize(double width, double height) {
         this.imageView.setFitWidth(width);
         this.imageView.setFitHeight(height);
     }

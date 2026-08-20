@@ -83,13 +83,19 @@ public class ConsoleToolBarPresenter<V extends ConsoleToolBarView> extends Abstr
     }
 
     protected void setCopyDisabled(boolean copyDisabled) {
+        if (this.copyDisabled == copyDisabled) {
+            return;
+        }
         this.copyDisabled = copyDisabled;
-        getView().setCopyDisabled(copyDisabled);
+        getView().updateCopyDisabled(copyDisabled);
     }
 
     protected void setPasteDisabled(boolean pasteDisabled) {
+        if (this.pasteDisabled == pasteDisabled) {
+            return;
+        }
         this.pasteDisabled = pasteDisabled;
-        getView().setPasteDisabled(copyDisabled);
+        getView().updatePasteDisabled(pasteDisabled);
     }
 
     @Override

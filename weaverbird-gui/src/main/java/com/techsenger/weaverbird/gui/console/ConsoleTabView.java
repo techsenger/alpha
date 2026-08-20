@@ -53,7 +53,7 @@ public interface ConsoleTabView extends HostTabView {
     @Override
     Composer getComposer();
 
-    void setMonospaceFont(Font font);
+    void updateMonospaceFont(Font font);
 
     void printPrompt(String prompt);
 
@@ -63,7 +63,7 @@ public interface ConsoleTabView extends HostTabView {
 
     void highlightCommands(Set<String> commands);
 
-    void updateInput(String text);
+    void replaceInput(String text);
 
     void beep();
 

@@ -35,7 +35,7 @@ public class LayerPagePresenter<V extends LayerPageView> extends AbstractPagePre
 
     @Override
     public void reset() {
-        getView().updateModules();
+        getView().refreshModules();
         getView().clearSelectAll();
     }
 

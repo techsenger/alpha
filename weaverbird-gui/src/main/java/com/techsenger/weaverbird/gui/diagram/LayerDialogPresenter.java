@@ -85,8 +85,8 @@ public class LayerDialogPresenter<V extends LayerDialogView> extends AbstractDia
         setHeight(600);
         setTitle("Layer Diagram Configuration");
         setResizable(true);
-        getView().setRightButtons(LayerDialogButtons.CANCEL, LayerDialogButtons.OK);
-        getView().setButtonDefault(LayerDialogButtons.OK, true);
+        getView().updateRightButtons(LayerDialogButtons.CANCEL, LayerDialogButtons.OK);
+        getView().updateButtonDefault(LayerDialogButtons.OK, true);
     }
 
     protected void onReset() {

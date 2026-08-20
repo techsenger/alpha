@@ -38,6 +38,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
+import javafx.scene.text.Font;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -111,6 +112,8 @@ public class ConsoleTabPresenter<V extends ConsoleTabView> extends AbstractHostT
 
     private SettingsSubscription fontSubscription;
 
+    private Font monospaceFont;
+
     /**
      * If null then the caret is outside of the editable region.
      */
@@ -159,6 +162,10 @@ public class ConsoleTabPresenter<V extends ConsoleTabView> extends AbstractHostT
 
     public String getSessionPrompt() {
         return sessionPrompt;
+    }
+
+    public Font getMonospaceFont() {
+        return this.monospaceFont;
     }
 
     @Override
@@ -219,8 +226,8 @@ public class ConsoleTabPresenter<V extends ConsoleTabView> extends AbstractHostT
         showPrompt();
         getView().requestFocus();
         var settings = getView().getComposer().getShellPort().getContext().getSettings().getAppearance();
-        getView().setMonospaceFont(settings.getMonospaceFont());
-        this.fontSubscription = settings.onMonospaceFontChanged((oldV, newV) -> getView().setMonospaceFont(newV));
+        setMonospaceFont(settings.getMonospaceFont());
+        this.fontSubscription = settings.onMonospaceFontChanged((oldV, newV) -> setMonospaceFont(newV));
         getView().highlightCommands(executor.getCommandsByName().keySet());
     }
 
@@ -361,6 +368,14 @@ public class ConsoleTabPresenter<V extends ConsoleTabView> extends AbstractHostT
         this.sessionPrompt = sessionPrompt;
     }
 
+    protected void setMonospaceFont(Font font) {
+        if (Objects.equals(this.monospaceFont, font)) {
+            return;
+        }
+        this.monospaceFont = font;
+        getView().updateMonospaceFont(font);
+    }
+
     protected String buildSessionPrompt(ClientSession session) {
         var sb = new StringBuilder();
         sb.append(session.getLoginName());
@@ -379,7 +394,7 @@ public class ConsoleTabPresenter<V extends ConsoleTabView> extends AbstractHostT
         }
         if (index >= 0) {
             this.commandIndex = index;
-            getView().updateInput(lastCommands.get(index));
+            getView().replaceInput(lastCommands.get(index));
         } else {
             getView().beep();
         }
@@ -394,10 +409,10 @@ public class ConsoleTabPresenter<V extends ConsoleTabView> extends AbstractHostT
         }
         if (index >= 0 && index < this.lastCommands.size()) {
             this.commandIndex = index;
-            getView().updateInput(lastCommands.get(index));
+            getView().replaceInput(lastCommands.get(index));
         } else if (index == this.lastCommands.size()) {
             this.commandIndex = -1;
-            getView().updateInput("");
+            getView().replaceInput("");
         } else {
             getView().beep();
         }
@@ -411,7 +426,7 @@ public class ConsoleTabPresenter<V extends ConsoleTabView> extends AbstractHostT
             oldInput = this.input.text.substring(0, this.input.caretOffset);
         }
         var newInput = oldInput + (element == null ? "" : element + " ");
-        getView().updateInput(newInput);
+        getView().replaceInput(newInput);
         getView().getComposer().closePopup();
         getView().requestFocus();
         this.input = null;

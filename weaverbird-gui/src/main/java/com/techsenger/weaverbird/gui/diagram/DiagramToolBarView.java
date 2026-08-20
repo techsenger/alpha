@@ -25,7 +25,7 @@ import java.util.List;
  */
 public interface DiagramToolBarView extends SessionToolBarView {
 
-    void setZoomLevels(List<String> levels);
+    void updateZoomLevels(List<String> levels);
 
-    void setZoomLevel(String level);
+    void updateZoomLevel(String level);
 }

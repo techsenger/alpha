@@ -41,7 +41,7 @@ public interface DiagramTabView extends HostTabView {
     @Override
     Composer getComposer();
 
-    void setDiagram(Image diagram);
+    void updateDiagram(Image diagram);
 
-    void setDiagramSize(double width, double height);
+    void updateDiagramSize(double width, double height);
 }

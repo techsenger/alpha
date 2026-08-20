@@ -25,11 +25,11 @@ import java.util.List;
  */
 public interface CompletionPopupView extends PopupView {
 
-    void setItems(List<CompletionItem<?>> items);
+    void updateItems(List<CompletionItem<?>> items);
 
-    void setInfo(String description, String module);
+    void displayInfo(String description, String module);
 
-    void setInfo(String description, boolean required, String alias);
+    void displayInfo(String description, boolean required, String alias);
 
     void selectPrevious();
 

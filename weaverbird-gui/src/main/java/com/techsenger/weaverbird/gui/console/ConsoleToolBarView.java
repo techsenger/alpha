@@ -24,7 +24,7 @@ import com.techsenger.weaverbird.gui.session.SessionToolBarView;
  */
 public interface ConsoleToolBarView extends SessionToolBarView {
 
-    void setCopyDisabled(boolean disabled);
+    void updateCopyDisabled(boolean disabled);
 
-    void setPasteDisabled(boolean disabled);
+    void updatePasteDisabled(boolean disabled);
 }
