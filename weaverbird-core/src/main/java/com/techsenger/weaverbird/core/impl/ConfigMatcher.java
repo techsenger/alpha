@@ -112,6 +112,54 @@ public final class ConfigMatcher {
     }
 
     /**
+     * Decides whether {@code provided} satisfies the name and version constraints declared by {@code required}.
+     *
+     * <p>Name equality is checked first (case-sensitive {@link Objects#equals}). If names differ the configs
+     * are incompatible regardless of versions.
+     *
+     * <p>Version compatibility depends on {@link VersionMatch}:
+     * <ul>
+     *   <li>{@link VersionMatch#ANY}   — any provided version is accepted.</li>
+     *   <li>{@link VersionMatch#MAJOR} — {@code provided.major == required.major}
+     *                                    and {@code provided >= required}.</li>
+     *   <li>{@link VersionMatch#MINOR} — {@code provided.major == required.major},
+     *                                    {@code provided.minor == required.minor}
+     *                                    and {@code provided >= required}.</li>
+     *   <li>{@link VersionMatch#PATCH} — all three segments must be identical
+     *                                    ({@code provided == required} exactly).</li>
+     * </ul>
+     *
+     * <p>A {@code null} {@link VersionMatch} is treated as {@link VersionMatch#ANY}.
+     *
+     * @param provided the candidate config from the provided list
+     * @param required the requirement that must be satisfied
+     * @return {@code true} if {@code provided} meets both the name and version constraints of {@code required}
+     */
+    static boolean isCompatible(ComponentConfig provided, ParentConfig required) {
+        if (!Objects.equals(provided.getName(), required.getName())) {
+            return false;
+        }
+
+        Version req   = required.getVersion();
+        Version prov  = provided.getVersion();
+        VersionMatch match = required.getVersionMatch() != null
+                ? required.getVersionMatch()
+                : VersionMatch.ANY;
+
+        return switch (match) {
+            case ANY   -> true;
+            case MAJOR -> Objects.equals(prov.getMajor(), req.getMajor())
+                    && isProvAtLeast(prov, req);
+            case MINOR -> Objects.equals(prov.getMajor(), req.getMajor())
+                    && Objects.equals(prov.getMinor(), req.getMinor())
+                    && isProvAtLeast(prov, req);
+            case PATCH -> Objects.equals(prov.getMajor(), req.getMajor())
+                    && Objects.equals(prov.getMinor(), req.getMinor())
+                    && Objects.equals(prov.getPatch(), req.getPatch());
+        };
+    }
+
+    /**
      * Attempts to find an augmenting path starting from required config {@code reqIdx} using DFS.
      *
      * <p>For each provided config {@code j} adjacent to {@code reqIdx}:
@@ -144,54 +192,6 @@ public final class ConfigMatcher {
             }
         }
         return false;
-    }
-
-    /**
-     * Decides whether {@code provided} satisfies the name and version constraints declared by {@code required}.
-     *
-     * <p>Name equality is checked first (case-sensitive {@link Objects#equals}). If names differ the configs
-     * are incompatible regardless of versions.
-     *
-     * <p>Version compatibility depends on {@link VersionMatch}:
-     * <ul>
-     *   <li>{@link VersionMatch#ANY}   — any provided version is accepted.</li>
-     *   <li>{@link VersionMatch#MAJOR} — {@code provided.major == required.major}
-     *                                    and {@code provided >= required}.</li>
-     *   <li>{@link VersionMatch#MINOR} — {@code provided.major == required.major},
-     *                                    {@code provided.minor == required.minor}
-     *                                    and {@code provided >= required}.</li>
-     *   <li>{@link VersionMatch#PATCH} — all three segments must be identical
-     *                                    ({@code provided == required} exactly).</li>
-     * </ul>
-     *
-     * <p>A {@code null} {@link VersionMatch} is treated as {@link VersionMatch#ANY}.
-     *
-     * @param provided the candidate config from the provided list
-     * @param required the requirement that must be satisfied
-     * @return {@code true} if {@code provided} meets both the name and version constraints of {@code required}
-     */
-    private static boolean isCompatible(ComponentConfig provided, ParentConfig required) {
-        if (!Objects.equals(provided.getName(), required.getName())) {
-            return false;
-        }
-
-        Version req   = required.getVersion();
-        Version prov  = provided.getVersion();
-        VersionMatch match = required.getVersionMatch() != null
-                ? required.getVersionMatch()
-                : VersionMatch.ANY;
-
-        return switch (match) {
-            case ANY   -> true;
-            case MAJOR -> Objects.equals(prov.getMajor(), req.getMajor())
-                    && isProvAtLeast(prov, req);
-            case MINOR -> Objects.equals(prov.getMajor(), req.getMajor())
-                    && Objects.equals(prov.getMinor(), req.getMinor())
-                    && isProvAtLeast(prov, req);
-            case PATCH -> Objects.equals(prov.getMajor(), req.getMajor())
-                    && Objects.equals(prov.getMinor(), req.getMinor())
-                    && Objects.equals(prov.getPatch(), req.getPatch());
-        };
     }
 
     /**

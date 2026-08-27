@@ -23,6 +23,7 @@ import com.techsenger.weaverbird.core.api.component.ComponentConfigInfo;
 import com.techsenger.weaverbird.core.api.component.ComponentConfigUtils;
 import com.techsenger.weaverbird.core.api.component.ComponentDescriptor;
 import com.techsenger.weaverbird.core.api.component.ComponentException;
+import com.techsenger.weaverbird.core.api.component.DeployPlan;
 import com.techsenger.weaverbird.core.api.component.UnknownComponentException;
 import com.techsenger.weaverbird.core.api.module.ArtifactEventListener;
 import com.techsenger.weaverbird.core.api.state.ComponentsState;
@@ -470,6 +471,26 @@ public interface ComponentManager {
      * @return
      */
     ComponentConfig readConfig(String name, Version version) throws ComponentException, UnknownComponentException;
+
+    /**
+     * Computes a plan for deploying {@code configs} in a valid order, with each entry's parents resolved from
+     * the currently deployed components and from other entries in {@code configs} - see {@link DeployPlan} for
+     * the precedence between the two. This method only computes the plan; it does not deploy anything.
+     *
+     * <p>Since this method reads the currently deployed components, and the returned plan's ids are only valid
+     * against that same state, code that needs to compute a plan and immediately act on it without a
+     * concurrent modification slipping in between must {@code synchronized} on this manager instance around
+     * both calls - every method on this interface is internally synchronized on the manager instance for this
+     * reason. For a plan that may be acted on later rather than immediately, compare {@link DeployPlan#getStateId()}
+     * against {@link #getComponentsState()} right before executing it, and recompute the plan if they differ.
+     *
+     * @param configs the configs to plan for; need not be exhaustive - a config may declare a parent satisfied
+     *     by an already-deployed component that never appears in this list
+     * @throws ComponentException if a non-optional parent of some config is satisfied by neither a deployed
+     *     component nor another entry in {@code configs}, or if the configs form a dependency cycle
+     * @return the resulting deploy plan
+     */
+    DeployPlan createDeployPlan(List<ComponentConfig> configs) throws ComponentException;
 
     /**
      * Returns the components state.

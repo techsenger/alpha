@@ -28,6 +28,7 @@ import com.techsenger.weaverbird.core.api.component.ComponentConfigUtils;
 import com.techsenger.weaverbird.core.api.component.ComponentDescriptor;
 import com.techsenger.weaverbird.core.api.component.ComponentException;
 import com.techsenger.weaverbird.core.api.component.ComponentObserver;
+import com.techsenger.weaverbird.core.api.component.DeployPlan;
 import com.techsenger.weaverbird.core.api.component.ParentConfig;
 import com.techsenger.weaverbird.core.api.component.UnknownComponentException;
 import com.techsenger.weaverbird.core.api.module.ArtifactEventListener;
@@ -673,6 +674,12 @@ public class DefaultComponentManager implements ComponentManager {
             throw new ComponentException(StringUtils.format("Error reading configuration for {}{}{}",
                     name, Constants.NAME_VERSION_SEPARATOR, version), ex);
         }
+    }
+
+    @Override
+    public synchronized DeployPlan createDeployPlan(List<ComponentConfig> configs) throws ComponentException {
+        return DeployPlanner.createPlan(new ArrayList<>(getDescriptors()), configs, componentsState.getId(),
+                componentIdCounter);
     }
 
     @Override
