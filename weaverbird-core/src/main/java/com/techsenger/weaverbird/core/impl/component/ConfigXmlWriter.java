@@ -120,6 +120,9 @@ public final class ConfigXmlWriter {
                     ? parent.getVersion().toString() : null);
             addAttributeIfNotNull(attrs, "versionMatch", parent.getVersionMatch() != null
                     ? parent.getVersionMatch().name().toLowerCase() : null);
+            if (parent.isOptional()) {
+                attrs.addAttribute("", "", "optional", "CDATA", "true");
+            }
             handler.startElement("", "", Tags.PARENT_TAG, attrs);
             handler.endElement("", "", Tags.PARENT_TAG);
         }

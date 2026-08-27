@@ -319,7 +319,7 @@ A XML configuration template with all supported tags:
     </Repositories>
 
     <Parents>
-        <Parent name="... " version="..." versionMatch="major/minor/patch"/>
+        <Parent name="... " version="..." versionMatch="major/minor/patch" optional="false"/>
     </Parents>
 
     <Choose>

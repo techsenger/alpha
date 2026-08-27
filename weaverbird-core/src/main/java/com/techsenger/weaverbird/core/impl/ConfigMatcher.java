@@ -70,7 +70,9 @@ public final class ConfigMatcher {
      * </ol>
      *
      * @param providedConfigs configs that are available for assignment; may contain more entries than required
-     * @param requiredConfigs configs that must each be satisfied by a unique provided config
+     * @param requiredConfigs configs that must each be satisfied by a unique provided config; a config for
+     *     which {@link ParentConfig#isOptional()} is {@code true} should be filtered out by the caller before
+     *     calling this method, since this method treats every entry it receives as mandatory
      * @return {@code null} if a complete one-to-one matching exists;
      *         the first unmatched {@link ParentConfig} otherwise
      */

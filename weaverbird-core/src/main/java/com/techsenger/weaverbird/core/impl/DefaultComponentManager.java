@@ -277,11 +277,15 @@ public class DefaultComponentManager implements ComponentManager {
         if (descriptors.isEmpty() && configs.isEmpty()) {
             return;
         }
-        if (descriptors.size() != configs.size()) {
+        // An optional parent config (see ParentConfig#isOptional()) may legitimately have no provided
+        // descriptor, so it's dropped before matching - ConfigMatcher itself treats every config it receives
+        // as mandatory.
+        var mandatoryConfigs = configs.stream().filter(c -> !c.isOptional()).toList();
+        if (descriptors.size() > configs.size()) {
             throw new ComponentException("The provided parents don't match the parents in the configuration");
         }
         var providedConfigs = descriptors.stream().map(d -> d.getConfig()).toList();
-        var notMatched = ConfigMatcher.findFirstUnsatisfied(providedConfigs, configs);
+        var notMatched = ConfigMatcher.findFirstUnsatisfied(providedConfigs, mandatoryConfigs);
         if (notMatched != null) {
             throw new ComponentException(StringUtils.format("Didn't find parent - {}{}{} " + notMatched.getName(),
                     Constants.NAME_VERSION_SEPARATOR, notMatched.getVersion()));

@@ -32,10 +32,13 @@ public final class DefaultParentConfig implements ParentConfig {
 
     private final VersionMatch versionMatch;
 
-    public DefaultParentConfig(String name, Version version, VersionMatch versionMatch) {
+    private final boolean optional;
+
+    public DefaultParentConfig(String name, Version version, VersionMatch versionMatch, boolean optional) {
         this.name = name;
         this.version = version;
         this.versionMatch = versionMatch;
+        this.optional = optional;
     }
 
     @Override
@@ -51,6 +54,11 @@ public final class DefaultParentConfig implements ParentConfig {
     @Override
     public VersionMatch getVersionMatch() {
         return versionMatch;
+    }
+
+    @Override
+    public boolean isOptional() {
+        return optional;
     }
 }
 

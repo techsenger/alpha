@@ -34,4 +34,13 @@ public interface ParentConfig {
      * @return
      */
     VersionMatch getVersionMatch();
+
+    /**
+     * Returns whether this parent is optional. An optional parent that cannot be matched to a deployed
+     * component does not block resolution/deployment of the owning component, unlike a required
+     * (non-optional) parent. Default value is {@code false}.
+     *
+     * @return
+     */
+    boolean isOptional();
 }

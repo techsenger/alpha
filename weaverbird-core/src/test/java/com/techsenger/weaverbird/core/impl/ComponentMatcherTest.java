@@ -90,6 +90,10 @@ class ConfigMatcherTest {
         @Override public VersionMatch getVersionMatch() {
             return versionMatch;
         }
+
+        @Override public boolean isOptional() {
+            return false;
+        }
     }
 
     // -------------------------------------------------------------------------

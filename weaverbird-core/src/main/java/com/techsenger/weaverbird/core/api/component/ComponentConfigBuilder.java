@@ -149,6 +149,7 @@ public final class ComponentConfigBuilder {
         private String name;
         private Version version;
         private VersionMatch versionMatch = VersionMatch.ANY;
+        private boolean optional = false;
 
         private ParentBuilder() { }
 
@@ -167,10 +168,15 @@ public final class ComponentConfigBuilder {
             return this;
         }
 
+        public ParentBuilder optional(boolean optional) {
+            this.optional = optional;
+            return this;
+        }
+
         private ParentConfig build() {
             Objects.requireNonNull(name, "Parent name is required");
             Objects.requireNonNull(version, "Parent version is required");
-            return new DefaultParentConfig(name, version, versionMatch);
+            return new DefaultParentConfig(name, version, versionMatch, optional);
         }
     }
 

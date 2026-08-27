@@ -251,8 +251,10 @@ public class ConfigXmlReader {
                         var name = processValue(attributes.getValue("name"));
                         var v = processValue(attributes.getValue("version"));
                         var m = processValue(attributes.getValue("versionMatch"));
+                        var optionalStr = processValue(attributes.getValue("optional"));
+                        var optional = optionalStr != null && optionalStr.equalsIgnoreCase("true");
                         parents.add(new DefaultParentConfig(name, Version.of(v),
-                                VersionMatch.valueOf(m.toUpperCase())));
+                                VersionMatch.valueOf(m.toUpperCase()), optional));
                     }
                     break;
                 case Tags.MODULE_TAG:
