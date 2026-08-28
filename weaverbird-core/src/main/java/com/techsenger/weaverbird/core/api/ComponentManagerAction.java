@@ -21,7 +21,7 @@ import com.techsenger.weaverbird.core.api.component.UnknownComponentException;
 
 /**
  * A unit of work to be executed by a {@link ComponentManager}, for example
- * by {@link ComponentManager#executeAtomically}.
+ * by {@link ComponentManager#executeExclusively}.
  *
  * @author Pavel Castornii
  */

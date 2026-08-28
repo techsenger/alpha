@@ -684,7 +684,7 @@ public class DefaultComponentManager implements ComponentManager {
     }
 
     @Override
-    public synchronized void executeAtomically(ComponentManagerAction action) throws ComponentException,
+    public synchronized void executeExclusively(ComponentManagerAction action) throws ComponentException,
             UnknownComponentException {
         action.run();
     }

@@ -478,7 +478,7 @@ public interface ComponentManager {
      *
      * <p>Since this method reads the currently deployed components, and the returned plan's ids are only valid
      * against that same state, code that needs to compute a plan and immediately act on it without a concurrent
-     * modification slipping in between should make both calls inside one {@link #executeAtomically} action. For
+     * modification slipping in between should make both calls inside one {@link #executeExclusively} action. For
      * a plan that may be acted on later rather than immediately, compare {@link DeployPlan#getStateId()} against
      * {@link #getComponentsState()} right before executing it, and recompute the plan if they differ.
      *
@@ -500,7 +500,7 @@ public interface ComponentManager {
      * @throws ComponentException if {@code action} throws it
      * @throws UnknownComponentException if {@code action} throws it
      */
-    void executeAtomically(ComponentManagerAction action) throws ComponentException, UnknownComponentException;
+    void executeExclusively(ComponentManagerAction action) throws ComponentException, UnknownComponentException;
 
     /**
      * Returns the components state.
