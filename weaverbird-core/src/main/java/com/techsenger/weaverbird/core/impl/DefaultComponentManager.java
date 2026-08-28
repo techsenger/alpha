@@ -19,6 +19,7 @@ package com.techsenger.weaverbird.core.impl;
 import com.techsenger.toolkit.core.StringUtils;
 import com.techsenger.toolkit.core.version.Version;
 import com.techsenger.weaverbird.core.api.ComponentManager;
+import com.techsenger.weaverbird.core.api.ComponentManagerAction;
 import com.techsenger.weaverbird.core.api.Constants;
 import com.techsenger.weaverbird.core.api.Framework;
 import com.techsenger.weaverbird.core.api.component.Component;
@@ -680,6 +681,12 @@ public class DefaultComponentManager implements ComponentManager {
     public synchronized DeployPlan createDeployPlan(List<ComponentConfig> configs) throws ComponentException {
         return DeployPlanner.createPlan(new ArrayList<>(getDescriptors()), configs, componentsState.getId(),
                 componentIdCounter);
+    }
+
+    @Override
+    public synchronized void executeAtomically(ComponentManagerAction action) throws ComponentException,
+            UnknownComponentException {
+        action.run();
     }
 
     @Override

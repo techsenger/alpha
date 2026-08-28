@@ -80,7 +80,6 @@ public interface ComponentManager {
      */
     ComponentConfig addComponent(String xmlConfig) throws ComponentException;
 
-
     /**
      * Adds a component with the specified configuration and writes its XML to disk.
      *
@@ -478,11 +477,10 @@ public interface ComponentManager {
      * the precedence between the two. This method only computes the plan; it does not deploy anything.
      *
      * <p>Since this method reads the currently deployed components, and the returned plan's ids are only valid
-     * against that same state, code that needs to compute a plan and immediately act on it without a
-     * concurrent modification slipping in between must {@code synchronized} on this manager instance around
-     * both calls - every method on this interface is internally synchronized on the manager instance for this
-     * reason. For a plan that may be acted on later rather than immediately, compare {@link DeployPlan#getStateId()}
-     * against {@link #getComponentsState()} right before executing it, and recompute the plan if they differ.
+     * against that same state, code that needs to compute a plan and immediately act on it without a concurrent
+     * modification slipping in between should make both calls inside one {@link #executeAtomically} action. For
+     * a plan that may be acted on later rather than immediately, compare {@link DeployPlan#getStateId()} against
+     * {@link #getComponentsState()} right before executing it, and recompute the plan if they differ.
      *
      * @param configs the configs to plan for; need not be exhaustive - a config may declare a parent satisfied
      *     by an already-deployed component that never appears in this list
@@ -491,6 +489,18 @@ public interface ComponentManager {
      * @return the resulting deploy plan
      */
     DeployPlan createDeployPlan(List<ComponentConfig> configs) throws ComponentException;
+
+    /**
+     * Runs {@code action} such that no other {@code ComponentManager} call - on this or any other thread - can
+     * execute concurrently with it, without exposing how that exclusion is implemented. Use this whenever a
+     * sequence of calls must observe one consistent, unchanging component state throughout, instead of assuming
+     * any particular locking strategy of the implementation.
+     *
+     * @param action the action to run
+     * @throws ComponentException if {@code action} throws it
+     * @throws UnknownComponentException if {@code action} throws it
+     */
+    void executeAtomically(ComponentManagerAction action) throws ComponentException, UnknownComponentException;
 
     /**
      * Returns the components state.
