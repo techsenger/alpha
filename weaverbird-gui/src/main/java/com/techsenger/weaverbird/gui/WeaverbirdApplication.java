@@ -16,6 +16,7 @@
 
 package com.techsenger.weaverbird.gui;
 
+import com.techsenger.shellfx.core.CoreComponents;
 import com.techsenger.shellfx.core.DefaultShellContext;
 import com.techsenger.shellfx.core.DefaultShellFxView;
 import com.techsenger.shellfx.core.DefaultShellParams;
@@ -28,6 +29,7 @@ import com.techsenger.shellfx.icons.IconStylesheetFactory;
 import com.techsenger.shellfx.layout.tabhost.TabHostFxView;
 import com.techsenger.shellfx.layout.tabhost.TabHostPresenter;
 import com.techsenger.shellfx.material.icon.FontIconView;
+import com.techsenger.shellfx.material.menu.DefaultMenuGroupName;
 import com.techsenger.shellfx.material.style.Density;
 import com.techsenger.shellfx.material.style.IconStylesheets;
 import com.techsenger.shellfx.material.style.StyleClasses;
@@ -71,7 +73,8 @@ public class WeaverbirdApplication extends Application {
         IconStylesheets.addAll(IconStylesheetFactory.forAll());
         IconStylesheets.addAll(WeaverbirdIconStylesheets.getAll());
 
-        var shellView = new DefaultShellFxView<>(this, stage, null, new ControlRegistry());
+        var controlRegistry = new ControlRegistry(CoreComponents.SHELL, new DefaultMenuGroupName("MainMenuGroup"));
+        var shellView = new DefaultShellFxView<>(this, stage, null, controlRegistry);
         var context = new DefaultShellContext(createSettings(), new InMemoryHistoryManager(), getHostServices());
         var shellParams = new DefaultShellParams(context);
         var shellPresenter = new DefaultShellPresenter<>(shellView, shellParams);
