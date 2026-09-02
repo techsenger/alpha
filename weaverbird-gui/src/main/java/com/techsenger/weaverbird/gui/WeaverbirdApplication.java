@@ -16,7 +16,6 @@
 
 package com.techsenger.weaverbird.gui;
 
-import com.techsenger.shellfx.core.CoreComponents;
 import com.techsenger.shellfx.core.DefaultShellContext;
 import com.techsenger.shellfx.core.DefaultShellFxView;
 import com.techsenger.shellfx.core.DefaultShellParams;
@@ -29,13 +28,12 @@ import com.techsenger.shellfx.icons.IconStylesheetFactory;
 import com.techsenger.shellfx.layout.tabhost.TabHostFxView;
 import com.techsenger.shellfx.layout.tabhost.TabHostPresenter;
 import com.techsenger.shellfx.material.icon.FontIconView;
-import com.techsenger.shellfx.material.menu.DefaultMenuGroupName;
 import com.techsenger.shellfx.material.style.Density;
 import com.techsenger.shellfx.material.style.IconStylesheets;
 import com.techsenger.shellfx.material.style.StyleClasses;
 import com.techsenger.shellfx.material.theme.AtlantaFxTheme;
 import com.techsenger.toolkit.fx.color.ColorUtils;
-import com.techsenger.weaverbird.gui.menu.FileMenuRegistrar;
+import com.techsenger.weaverbird.gui.controls.ModuleControlRegistrar;
 import com.techsenger.weaverbird.gui.settings.ConsoleSettings;
 import com.techsenger.weaverbird.gui.settings.LayoutEngine;
 import com.techsenger.weaverbird.gui.settings.LineType;
@@ -73,8 +71,9 @@ public class WeaverbirdApplication extends Application {
         IconStylesheets.addAll(IconStylesheetFactory.forAll());
         IconStylesheets.addAll(WeaverbirdIconStylesheets.getAll());
 
-        var controlRegistry = new ControlRegistry(CoreComponents.SHELL, new DefaultMenuGroupName("MainMenuGroup"));
-        var shellView = new DefaultShellFxView<>(this, stage, null, controlRegistry);
+        var controlRegistry = new ControlRegistry();
+        var shellView = new DefaultShellFxView<>(this, stage, null, ShellControls.MAIN_MENU_GROUP,
+                controlRegistry);
         var context = new DefaultShellContext(createSettings(), new InMemoryHistoryManager(), getHostServices());
         var shellParams = new DefaultShellParams(context);
         var shellPresenter = new DefaultShellPresenter<>(shellView, shellParams);
@@ -88,8 +87,8 @@ public class WeaverbirdApplication extends Application {
         workspacePresenter.initialize();
         shellView.getComposer().addWorkspace(workspaceView);
 
-        var fileRegistrar = new FileMenuRegistrar(shellView, ModuleActivatorProvider.getFramework());
-        fileRegistrar.register();
+        var registrar = new ModuleControlRegistrar(shellView, ModuleActivatorProvider.getFramework());
+        registrar.register();
 
         shellView.upgradeMenuBar();
         stage.show();

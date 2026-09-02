@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.techsenger.weaverbird.gui.menu;
+package com.techsenger.weaverbird.gui.controls;
 
 import com.techsenger.shellfx.core.ShellFxView;
 import com.techsenger.shellfx.core.registry.AbstractControlRegistrar;
@@ -27,6 +27,7 @@ import com.techsenger.shellfx.material.menu.ManagedMenuGroup;
 import com.techsenger.shellfx.material.menu.ManagedMenuItem;
 import com.techsenger.shellfx.material.menu.MenuItemHandler;
 import com.techsenger.weaverbird.core.api.Framework;
+import com.techsenger.weaverbird.gui.ShellControls;
 import com.techsenger.weaverbird.gui.console.ConsoleTabFxView;
 import com.techsenger.weaverbird.gui.console.ConsoleTabParams;
 import com.techsenger.weaverbird.gui.console.ConsoleTabPresenter;
@@ -42,10 +43,11 @@ import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 
 /**
+ * Registers every menu, group, and item the Weaverbird application contributes.
  *
  * @author Pavel Castornii
  */
-public class FileMenuRegistrar extends AbstractControlRegistrar {
+public class ModuleControlRegistrar extends AbstractControlRegistrar {
 
     private final ShellFxView<?> shell;
 
@@ -53,7 +55,7 @@ public class FileMenuRegistrar extends AbstractControlRegistrar {
 
     private final ClientService client = ClientServiceFactory.create();
 
-    public FileMenuRegistrar(ShellFxView<?> shell, Framework framework) {
+    public ModuleControlRegistrar(ShellFxView<?> shell, Framework framework) {
         super(shell.getControlRegistry());
         this.shell = shell;
         this.framework = framework;
@@ -61,23 +63,23 @@ public class FileMenuRegistrar extends AbstractControlRegistrar {
 
     @Override
     public void register() {
-        registerMenu();
-        registerMainGroup();
+        registerFileMenu();
+        registerFileMainGroup();
         registerConsoleItem();
         registerDiagramItem();
-//        registerSettingsItem();
     }
 
-    protected void registerMenu() {
+    private void registerFileMenu() {
         ControlFactory<ShellFxView<?>, ManagedMenu> f = (v) -> {
-            return new ManagedMenu(FileMenu.NAME, "_File", 0);
+            return new ManagedMenu(ShellControls.FileMenu.NAME, "_File", 0);
         };
-        addRegistration(getRegistry().mainMenu().registerMenu(f));
+        addRegistration(getRegistry().registerMenu(ShellControls.MAIN_MENU_GROUP, f));
     }
 
-    private void registerMainGroup() {
-        ControlFactory<ShellFxView<?>, ManagedMenuGroup> f = (v) -> new ManagedMenuGroup(FileMenu.MAIN, 100);
-        addRegistration(getRegistry().mainMenu().registerMenuGroup(FileMenu.NAME, f));
+    private void registerFileMainGroup() {
+        ControlFactory<ShellFxView<?>, ManagedMenuGroup> f = (v) ->
+                new ManagedMenuGroup(ShellControls.FileMenu.MAIN, 100);
+        addRegistration(getRegistry().registerMenuGroup(ShellControls.FileMenu.NAME, f));
     }
 
     private void registerConsoleItem() {
@@ -101,7 +103,7 @@ public class FileMenuRegistrar extends AbstractControlRegistrar {
             MenuItemHandler.setHandler(item, handler);
             return item;
         };
-        addRegistration(getRegistry().mainMenu().registerMenuItem(FileMenu.MAIN, f));
+        addRegistration(getRegistry().registerMenuItem(ShellControls.FileMenu.MAIN, f));
     }
 
     private void registerDiagramItem() {
@@ -126,25 +128,6 @@ public class FileMenuRegistrar extends AbstractControlRegistrar {
             return item;
 
         };
-        addRegistration(getRegistry().mainMenu().registerMenuItem(FileMenu.MAIN, f));
+        addRegistration(getRegistry().registerMenuItem(ShellControls.FileMenu.MAIN, f));
     }
-
-//    private void registerSettingsItem() {
-//        ControlFactory<KeyedMenuItem> f = (v) -> {
-//            var tabShellView = (TabShellView<?>) v;
-//            var item = new KeyedMenuItem(FileMenuKeys.SETTINGS, false, false, false, "_Settings",
-//                    new FontIconView(WeaverbirdIcons.SETTINGS));
-//            item.setOnAction((e) -> {
-//                var viewModel =
-//                        new SettingsDialogViewModel((ConsoleSettings) tabShellView.getViewModel().getSettings(),
-//                        tabShellView.getViewModel().getHistoryManager());
-//                var view = new SettingsDialogView(viewModel);
-//                view.initialize();
-//                tabShellView.getDialogManager().openDialog(view);
-//            });
-//            return item;
-//
-//        };
-//        addRegistration(getRegistry().registerMenuItem(TabShellKey.INSTANCE, FileMenuKeys.MAIN, f, 1000));
-//    }
 }
