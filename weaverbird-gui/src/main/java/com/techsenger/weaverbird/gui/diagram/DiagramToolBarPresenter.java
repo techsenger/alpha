@@ -16,13 +16,11 @@
 
 package com.techsenger.weaverbird.gui.diagram;
 
-import com.techsenger.patternfx.mvp.ComponentDescriptor;
 import com.techsenger.weaverbird.gui.session.AbstractSessionToolBarPresenter;
 import com.techsenger.weaverbird.net.client.api.ClientSession;
 import java.util.List;
 import java.util.Objects;
 import javafx.collections.FXCollections;
-import com.techsenger.weaverbird.gui.WeaverbirdComponents;
 
 /**
  *
@@ -50,11 +48,6 @@ public class DiagramToolBarPresenter<V extends DiagramToolBarView> extends Abstr
 
     public String getZoomLevel() {
         return zoomLevel;
-    }
-
-    @Override
-    protected ComponentDescriptor createDescriptor() {
-        return new ComponentDescriptor(WeaverbirdComponents.DIAGRAM_TOOL_BAR);
     }
 
     @Override

@@ -16,12 +16,10 @@
 
 package com.techsenger.weaverbird.gui.diagram;
 
-import com.techsenger.patternfx.mvp.ComponentDescriptor;
 import com.techsenger.shellfx.core.CloseCheckResult;
 import com.techsenger.shellfx.core.ClosePreparationResult;
 import com.techsenger.shellfx.core.dialog.AbstractDialogPresenter;
 import com.techsenger.weaverbird.core.api.model.ComponentLayerModel;
-import com.techsenger.weaverbird.gui.WeaverbirdComponents;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -61,11 +59,6 @@ public class LayerDialogPresenter<V extends LayerDialogView> extends AbstractDia
     @Override
     public List<LayerConfig> getLayerConfigs() {
         return this.layerConfigs;
-    }
-
-    @Override
-    protected ComponentDescriptor createDescriptor() {
-        return new ComponentDescriptor(WeaverbirdComponents.LAYER_DIALOG);
     }
 
     @Override

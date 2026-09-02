@@ -16,8 +16,6 @@
 
 package com.techsenger.weaverbird.gui.console;
 
-import com.techsenger.patternfx.mvp.ComponentDescriptor;
-import com.techsenger.weaverbird.gui.WeaverbirdComponents;
 import com.techsenger.weaverbird.gui.session.AbstractSessionToolBarPresenter;
 import com.techsenger.weaverbird.net.client.api.ClientSession;
 
@@ -56,11 +54,6 @@ public class ConsoleToolBarPresenter<V extends ConsoleToolBarView> extends Abstr
 
     public boolean isPasteDisabled() {
         return pasteDisabled;
-    }
-
-    @Override
-    protected ComponentDescriptor createDescriptor() {
-        return new ComponentDescriptor(WeaverbirdComponents.CONSOLE_TOOL_BAR);
     }
 
     @Override

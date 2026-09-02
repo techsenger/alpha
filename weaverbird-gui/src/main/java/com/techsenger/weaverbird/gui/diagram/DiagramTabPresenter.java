@@ -16,13 +16,11 @@
 
 package com.techsenger.weaverbird.gui.diagram;
 
-import com.techsenger.patternfx.mvp.ComponentDescriptor;
 import com.techsenger.shellfx.core.CloseCheckResult;
 import com.techsenger.shellfx.core.ClosePreparationResult;
 import com.techsenger.shellfx.core.tab.AbstractHostTabPresenter;
 import com.techsenger.weaverbird.core.api.Framework;
 import com.techsenger.weaverbird.core.api.model.LayersInfo;
-import com.techsenger.weaverbird.gui.WeaverbirdComponents;
 import com.techsenger.weaverbird.gui.settings.DiagramSettings;
 import com.techsenger.weaverbird.gui.style.WeaverbirdIcons;
 import com.techsenger.weaverbird.net.client.api.ClientService;
@@ -194,11 +192,6 @@ public class DiagramTabPresenter<V extends DiagramTabView> extends AbstractHostT
         if (this.diagram != null) {
             setDiagramSize(calculateDiagramWidth(), calculateDiagramHeight());
         }
-    }
-
-    @Override
-    protected ComponentDescriptor createDescriptor() {
-        return new ComponentDescriptor(WeaverbirdComponents.DIAGRAM_TAB);
     }
 
     @Override

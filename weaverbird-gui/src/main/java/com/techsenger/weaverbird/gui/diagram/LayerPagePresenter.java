@@ -16,9 +16,7 @@
 
 package com.techsenger.weaverbird.gui.diagram;
 
-import com.techsenger.patternfx.mvp.ComponentDescriptor;
 import com.techsenger.shellfx.core.page.AbstractPagePresenter;
-import com.techsenger.weaverbird.gui.WeaverbirdComponents;
 
 /**
  *
@@ -37,11 +35,6 @@ public class LayerPagePresenter<V extends LayerPageView> extends AbstractPagePre
     public void reset() {
         getView().refreshModules();
         getView().clearSelectAll();
-    }
-
-    @Override
-    protected ComponentDescriptor createDescriptor() {
-        return new ComponentDescriptor(WeaverbirdComponents.LAYER_PAGE);
     }
 
     @Override

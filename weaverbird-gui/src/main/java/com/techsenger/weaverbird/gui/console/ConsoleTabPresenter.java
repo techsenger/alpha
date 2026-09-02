@@ -16,7 +16,6 @@
 
 package com.techsenger.weaverbird.gui.console;
 
-import com.techsenger.patternfx.mvp.ComponentDescriptor;
 import com.techsenger.shellfx.core.CloseCheckResult;
 import com.techsenger.shellfx.core.ClosePreparationResult;
 import com.techsenger.shellfx.core.UiExecutor;
@@ -30,7 +29,6 @@ import com.techsenger.weaverbird.executor.api.CommandExecutor;
 import com.techsenger.weaverbird.executor.api.CommandExecutorFactory;
 import com.techsenger.weaverbird.executor.api.CommandSyntax;
 import com.techsenger.weaverbird.executor.api.command.Commands;
-import com.techsenger.weaverbird.gui.WeaverbirdComponents;
 import com.techsenger.weaverbird.gui.style.WeaverbirdIcons;
 import com.techsenger.weaverbird.net.client.api.ClientSession;
 import java.util.ArrayList;
@@ -143,11 +141,6 @@ public class ConsoleTabPresenter<V extends ConsoleTabView> extends AbstractHostT
             logger.error("{} Error creating executor", getDescriptor().getLogPrefix(), e);
         }
         this.executor = ex;
-    }
-
-    @Override
-    protected ComponentDescriptor createDescriptor() {
-        return new ComponentDescriptor(WeaverbirdComponents.CONSOLE_TAB);
     }
 
     @Override

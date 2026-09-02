@@ -16,14 +16,12 @@
 
 package com.techsenger.weaverbird.gui.console;
 
-import com.techsenger.patternfx.mvp.ComponentDescriptor;
 import com.techsenger.shellfx.core.CloseCheckResult;
 import com.techsenger.shellfx.core.ClosePreparationResult;
 import com.techsenger.shellfx.core.popup.AbstractPopupPresenter;
 import com.techsenger.weaverbird.executor.api.CommandSyntax;
 import com.techsenger.weaverbird.executor.api.command.CommandInfo;
 import com.techsenger.weaverbird.executor.api.command.ParameterDescriptor;
-import com.techsenger.weaverbird.gui.WeaverbirdComponents;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -64,11 +62,6 @@ public class CompletionPopupPresenter<V extends CompletionPopupView> extends Abs
         this.popupAware = params.getPopupAware();
         this.token = params.getToken();
         this.sessionExists = params.isSessionExists();
-    }
-
-    @Override
-    protected ComponentDescriptor createDescriptor() {
-        return new ComponentDescriptor(WeaverbirdComponents.COMPLETION_POPUP);
     }
 
     @Override
