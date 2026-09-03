@@ -96,7 +96,7 @@ public class LayerDialogPresenter<V extends LayerDialogView> extends AbstractDia
             }
         }
         // and only now update all initialized pages
-        for (var p : getView().getComposer().getPageHostPort().getViewAccess().getComposer().getPagePorts()) {
+        for (var p : getView().getComposer().getPageHostPort().getComposerAccess().getPagePorts()) {
             LayerPagePort pagePort = (LayerPagePort) p;
             pagePort.reset();
         }
